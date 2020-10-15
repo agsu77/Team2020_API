@@ -1,6 +1,7 @@
 const express = require('express');
 
 require('./config/config.js');
+require('./config/connectionBD.js');
 
 const app = express();
 
