@@ -31,4 +31,20 @@ exports.create = (req, res) => {
             message: err.message || 'Ocurrio un error creando el usuario.',
         });
     });
-}
+};
+
+exports.findByUsername = (req, res) => {
+    User.find({user: req.params.user}).then((user) => {
+        if(!user){
+            return res.status(400).send({
+                message: 'Usuario "' + req.params.user + 'no encontrado',
+            })
+        }
+        res.status(200).send(user);
+        console.log('Usario ' + user.user + ' encontrado, aca si logueamos');
+    }).catch((err) => {
+        return res.status(500).send({
+            message: "Error al buscar el usuario: " + req.params.user,
+          });
+    })
+};
