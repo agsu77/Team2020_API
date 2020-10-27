@@ -15,7 +15,7 @@ exports.create = (req, res) => {
      * Creo el usuario
      */
     const user = new User({
-        user: req.body.user,
+        userName: req.body.user,
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         password: req.body.password,
@@ -31,6 +31,51 @@ exports.create = (req, res) => {
             message: err.message || 'Ocurrio un error creando el usuario.',
         });
     });
+}
+
+/**
+ * Obtengo datos de usuario
+ * @param user
+ */
+exports.find = (req, res) => {
+    const userName = req.query.user;
+    var condition = userName ? { userName: { $regex: new RegExp(userName), $options: "i" } } : {};
+
+    User.find(condition).then((data) => {
+        if (!data)
+          res.status(404).send({ message: "No se encontro usuario " + userName });
+        else res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({ 
+            message: err.message || "Ocurrio un error intentando devolver el usuario = " + userName });
+      });
+}
+
+/**
+ * Actualiza un usuario
+ * @param id
+ */
+exports.update = (req, res) => {
+    if (!req.body) {
+        return res.status(400).send({
+          message: "Los campos no pueden ser vacios!"
+        });
+      }    
+    const id = req.params.id;
+
+    User.findByIdAndUpdate(id, req.body, { useFindAndModify: false }).then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: "No se puedo actualizar usuario " + userName + ". Comprobar nombre de usuario" });
+      } else res.send({ message: "Usuario actualizado correctamente." });
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error al actualizar usuario " + userName 
+      });
+    });
+
 };
 
 exports.findByUsername = (req, res) => {
