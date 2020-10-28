@@ -1,5 +1,4 @@
 const Requerimiento = require('../model/requerimientoModel');
-const userModel = require('../model/userModel');
 
 /**
  * Crea requerimientos
@@ -13,7 +12,7 @@ exports.create = (req, res) => {
         })
     }
 
-    const Requerimiento = New Requerimiento({
+    const Requerimiento = new Requerimiento({
         nombre: req.body.nombre,
     })
 
