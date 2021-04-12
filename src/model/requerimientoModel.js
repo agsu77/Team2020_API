@@ -9,7 +9,7 @@ let RequerimientoModel = new Schema({
     nombre: String,
     idSSA: Number,
     horas: [{
-        idTarea: String,
+        tarea: String,
         dia: Date,
         descripcion: String,
         cantidadHoras: Number,
