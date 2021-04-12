@@ -49,6 +49,7 @@ exports.find = (req, res) => {
 }
 
 exports.addHoras = (req, res) => {
+    //TODO: Terminar esto
     if (!req.body) {
         return res.status(400).send({
             message: "Los campos no pueden ser vacios!"

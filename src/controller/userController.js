@@ -57,6 +57,7 @@ exports.find = (req, res) => {
 * @param id
 */
 exports.update = (req, res) => {
+    //TODO: Revisar esto
     if (!req.body) {
         return res.status(400).send({
             message: "Los campos no pueden ser vacios!"
