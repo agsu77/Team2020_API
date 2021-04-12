@@ -14,6 +14,7 @@ exports.create = (req, res) => {
 
     const Requerimiento = new Requerimiento({
         nombre: req.body.nombre,
+        idSSA: req.body.idSSA,
     })
 
     Requerimiento.save().then((data) => {

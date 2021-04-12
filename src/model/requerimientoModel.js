@@ -7,6 +7,14 @@ const Schema = mongoose.Schema;
  */
 let RequerimientoModel = new Schema({
     nombre: String,
+    idSSA: Number,
+    horas: [{
+        idTarea: String,
+        dia: Date,
+        descripcion: String,
+        cantidadHoras: Number,
+        user: String,
+    }]
 });
 
 module.exports = mongoose.model('Requerimiento', RequerimientoModel);

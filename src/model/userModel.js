@@ -10,13 +10,6 @@ let UserModel = new Schema({
     nombre: String,
     apellido: String,
     password: String,
-    horas: [{
-        idRequerimiento: String,
-        idTarea: String,
-        dia: Date,
-        descripcion: String,
-        cantidadHoras: Number,
-    }]
 });
 
 module.exports = mongoose.model('User', UserModel);
