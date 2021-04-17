@@ -1,12 +1,11 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 
 require('./config/config.js');
 require('./config/connectionBD.js');
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 
 //Routes
 require("./routes/userRoutes")(app);
