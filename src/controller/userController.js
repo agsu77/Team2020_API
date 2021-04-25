@@ -1,14 +1,12 @@
 const User = require('../model/userModel');
+const { returnError } = require('../util/manageErrors')
+const { validationResult } = require('express-validator');
 
 
 exports.create = (req, res) => {
-    /**
-    * Validaciones
-    */
-    if (!req.body.nombre || !req.body.apellido || !req.body.user || !req.body.password) {
-        return res.status(400).send({
-            message: 'Los campos no pueden ser vacios',
-        })
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
 
     /**
@@ -27,9 +25,7 @@ exports.create = (req, res) => {
     user.save().then((data) => {
         res.send(data);
     }).catch((err) => {
-        res.status(500).send({
-            message: err.message || 'Ocurrio un error creando el usuario.',
-        });
+        res.status(500).send(returnError(err.message || 'Ocurrio un error creando el usuario.', 'CreateUser'));
     });
 }
 
@@ -38,17 +34,24 @@ exports.create = (req, res) => {
 * @param user
 */
 exports.find = (req, res) => {
-    const userName = req.query.user;
-    var condition = userName ? { userName: { $regex: new RegExp(userName), $options: "i" } } : {};
+    /**
+    * Validaciones
+    */
+     const errors = validationResult(req);
+     if (!errors.isEmpty()) {
+         return res.status(400).json({ errors: errors.array() });
+     }
+    let userName = req.body.user;
+    let condition = { user: new RegExp(userName, 'i') };
 
     User.find(condition).then((data) => {
-        if (!data)
-            res.status(404).send({ message: "No se encontro usuario " + userName });
-        else res.send(data);
+        if (data.length){
+            res.send(data);
+        } else {
+            res.status(404).send(returnError("No se encontro el user: " + userName, 'FindUser'));
+        }
     }).catch((err) => {
-        res.status(500).send({
-            message: err.message || "Ocurrio un error intentando devolver el usuario = " + userName
-        });
+        res.status(500).send(returnError(err.message || "Ocurrio un error intentando devolver el user: " + userName, 'FindUser'));
     });
 }
 
