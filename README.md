@@ -8,22 +8,18 @@ user: {
     nombre,
     apellido,
     password,
-    horas [
-        idrequerimiento,
-        idTarea,
-        dia,
-        desc,
-        cantidadHoras
-    ]
-}
-
-tarea: {
-    _id,
-    nombre,
 }
 
 requerimiento: {
     _id,
     nombre,
+    isSSA,
+    horas [
+        idTarea,
+        dia,
+        descripcion,
+        cantidadHoras,
+        user
+    ]
 }
 ```
