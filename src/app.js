@@ -1,6 +1,7 @@
 const express = require('express');
+// Se importa todas las configuraciones desde .env
+require('dotenv').config();
 
-require('./config/config.js');
 require('./config/connectionBD.js');
 
 const app = express();

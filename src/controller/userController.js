@@ -13,7 +13,7 @@ exports.create = (req, res) => {
     * Creo el usuario
     */
     const user = new User({
-        userName: req.body.user,
+        user: req.body.user,
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         password: req.body.password,
