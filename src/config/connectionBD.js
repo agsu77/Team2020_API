@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-
 mongoose.connection.on('connected', () =>{
     console.log('Conexion con base de datos exitosa');
 });
@@ -23,7 +22,7 @@ mongoose.connection.on('errror', (error) => {
 
 const connect = async () => {
     console.debug('Estableciendo conexion con la base');
-    await mongoose.connect('mongodb+srv://userTeam2k:userTeam2k@cluster0.hzije.mongodb.net/team2k', {
+    await mongoose.connect(process.env.DB, {
         useNewUrlParser : true,
         useUnifiedTopology : true
     });
