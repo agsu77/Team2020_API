@@ -13,5 +13,11 @@ describe('Post Users', () => {
             })
             expect(response.statusCode).toBe(200);
         })
+        test('Obtengo el usuario', async () =>{
+            const response = await request(app).get('/api/user').send({
+                "user": "PabloTest",
+            })
+            expect(response.statusCode).toBe(200);
+        })
     })
 })
