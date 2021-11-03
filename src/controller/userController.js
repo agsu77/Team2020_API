@@ -66,17 +66,18 @@ exports.update = (req, res) => {
             message: "Los campos no pueden ser vacios!"
         });
     }
-    const id = req.params.id;
+    let userName = req.body.user;
+    let condition = { user: new RegExp(userName, 'i') };
 
-    User.findByIdAndUpdate(id, req.body, { useFindAndModify: false }).then(data => {
+    User.findOneAndUpdate(condition, req.body).then(data => {
         if (!data) {
             res.status(404).send({
-                message: "No se puedo actualizar usuario " + userName + ". Comprobar nombre de usuario"
+                message: "No se puedo actualizar usuario " + id + ". Comprobar nombre de usuario"
             });
         } else res.send({ message: "Usuario actualizado correctamente." });
     }).catch(err => {
         res.status(500).send({
-            message: "Error al actualizar usuario " + userName
+            message: "Error al actualizar usuario " + id
         });
     });
 };
