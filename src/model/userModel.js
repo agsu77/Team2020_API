@@ -6,7 +6,10 @@ const Schema = mongoose.Schema;
  * @author Pablo Rubianes
  */
 let UserModel = new Schema({
-    user: String,
+    user: {
+        type: String,
+        unique: true
+    },
     nombre: String,
     apellido: String,
     password: String,
