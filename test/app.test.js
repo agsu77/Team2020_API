@@ -38,5 +38,12 @@ describe('Post Users', () => {
             })
             expect(response.statusCode).toBe(200);
         })
+
+        test('Borro el usuario', async () =>{
+            const response = await request(app).delete('/api/user/PabloTest').send({
+                "user": "PabloTest",
+            })
+            expect(response.statusCode).toBe(200);
+        })
     })
 })
