@@ -60,12 +60,11 @@ exports.find = (req, res) => {
 * @param id
 */
 exports.update = (req, res) => {
-    //TODO: Revisar esto
-    if (!req.body) {
-        return res.status(400).send({
-            message: "Los campos no pueden ser vacios!"
-        });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
+    
     let userName = req.body.user;
     let condition = { user: new RegExp(userName, 'i') };
 
@@ -82,18 +81,24 @@ exports.update = (req, res) => {
     });
 };
 
-exports.findByUsername = (req, res) => {
-    User.find({ user: req.params.user }).then((user) => {
-        if (!user) {
-            return res.status(400).send({
-                message: 'Usuario "' + req.params.user + 'no encontrado',
-            })
-        }
-        res.status(200).send(user);
-        console.log('Usario ' + user.user + ' encontrado, aca si logueamos');
-    }).catch((err) => {
-        return res.status(500).send({
-            message: "Error al buscar el usuario: " + req.params.user,
+exports.delete = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    
+    let userName = req.body.user;
+    let condition = { user: new RegExp(userName, 'i') };
+
+    User.findOneAndRemove(condition, req.body).then(data => {
+        if (!data) {
+            res.status(404).send({
+                message: "No se puedo borrar usuario " + id + ". Comprobar nombre de usuario"
+            });
+        } else res.send({ message: "Usuario borrado correctamente." });
+    }).catch(err => {
+        res.status(500).send({
+            message: "Error al borrar usuario " + id
         });
-    })
+    });
 };
