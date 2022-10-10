@@ -8,5 +8,6 @@ app.use(express.json());
 
 //Routes
 require("./routes/userRoutes")(app);
+require("./routes/requerimientoRoutes")(app);
 
 module.exports = app;
