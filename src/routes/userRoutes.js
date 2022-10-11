@@ -18,13 +18,9 @@ module.exports = app => {
     ],user.find);
 
     // Actualizar usuario
-    router.put("/:id", [
-        check('user').notEmpty().withMessage('El User es requerido')
-    ],user.update);
+    router.put("/:user", user.update);
 
-    router.delete("/:id", [
-        check('user').notEmpty().withMessage('El User es requerido')
-    ],user.delete);
+    router.delete("/:user", user.delete);
 
     app.use('/api/user', router);
 
