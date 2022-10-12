@@ -37,15 +37,15 @@ exports.find = (req, res) => {
     /**
     * Validaciones
     */
-     const errors = validationResult(req);
-     if (!errors.isEmpty()) {
-         return res.status(400).json({ errors: errors.array() });
-     }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     let userName = req.body.user;
     let condition = { user: new RegExp(userName, 'i') };
 
     User.find(condition).then((data) => {
-        if (data.length){
+        if (data.length) {
             res.send(data);
         } else {
             res.status(404).send(returnError("No se encontro el user: " + userName, 'FindUser'));
@@ -60,20 +60,17 @@ exports.find = (req, res) => {
 * @param id
 */
 exports.update = (req, res) => {
-    //TODO: Revisar esto
-    if (!req.body) {
-        return res.status(400).send({
-            message: "Los campos no pueden ser vacios!"
-        });
-    }
-    const id = req.params.id;
+    let userName = req.params.user;
+    let condition = { user: new RegExp(userName, 'i') };
 
-    User.findByIdAndUpdate(id, req.body, { useFindAndModify: false }).then(data => {
+    User.findOneAndUpdate(condition, req.body).then(data => {
         if (!data) {
             res.status(404).send({
                 message: "No se puedo actualizar usuario " + userName + ". Comprobar nombre de usuario"
             });
-        } else res.send({ message: "Usuario actualizado correctamente." });
+        } else {
+            res.send({ message: "Usuario actualizado correctamente." })
+        };
     }).catch(err => {
         res.status(500).send({
             message: "Error al actualizar usuario " + userName
@@ -81,18 +78,21 @@ exports.update = (req, res) => {
     });
 };
 
-exports.findByUsername = (req, res) => {
-    User.find({ user: req.params.user }).then((user) => {
-        if (!user) {
-            return res.status(400).send({
-                message: 'Usuario "' + req.params.user + 'no encontrado',
-            })
-        }
-        res.status(200).send(user);
-        console.log('Usario ' + user.user + ' encontrado, aca si logueamos');
-    }).catch((err) => {
-        return res.status(500).send({
-            message: "Error al buscar el usuario: " + req.params.user,
+exports.delete = (req, res) => {
+    let userName = req.params.user;
+    let condition = { user: new RegExp(userName, 'i') };
+
+    User.findOneAndRemove(condition).then(data => {
+        if (!data) {
+            res.status(404).send({
+                message: "No se puedo borrar usuario " + userName + ". Comprobar nombre de usuario"
+            });
+        } else {
+            res.send({ message: "Usuario borrado correctamente." })
+        };
+    }).catch(err => {
+        res.status(500).send({
+            message: "Error al borrar usuario " + userName
         });
-    })
+    });
 };

@@ -18,7 +18,9 @@ module.exports = app => {
     ],user.find);
 
     // Actualizar usuario
-    router.put("/:id", user.update);
+    router.put("/:user", user.update);
+
+    router.delete("/:user", user.delete);
 
     app.use('/api/user', router);
 
